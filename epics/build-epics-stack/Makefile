@@ -94,11 +94,12 @@ endef
 define build_base
 set -e; \
 mkdir -p $(dir $(EPICS_BASE)); \
-if [ ! -d "$(EPICS_BASE)" ]; then \
+if [ ! -f "$(EPICS_BASE)/configure/RULES_TOP" ]; then \
+  rm -rf "$(EPICS_BASE)"; \
   git clone --depth 1 --branch $(EPICS_BASE_TAG) $(EPICS_BASE_REPO) $(EPICS_BASE); \
 fi; \
 $(call fix_fortify_source); \
-if [ ! -d "$(EPICS_BASE)/lib" ]; then \
+if [ ! -f "$(EPICS_BASE)/lib/libCom.so" ]; then \
   make -C $(EPICS_BASE) -j; \
 fi
 endef
@@ -264,6 +265,8 @@ endef
 #=============================================
 # Targets (clean & explicit)
 #=============================================
+
+.PHONY: base asyn autosave busy sscan calc ad motor clean
 
 base:
 > $(build_base)
