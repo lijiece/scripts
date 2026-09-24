@@ -6,6 +6,8 @@
 # Find and edit
 find . -name "$1" -exec vim {} \;
 
+# Find the pid of a process
+ps aux |grep -v grep | grep $1
 ```
 
 ## `.inputrc`
