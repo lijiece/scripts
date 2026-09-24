@@ -3,6 +3,8 @@
 ## `.bashrc`
 
 ```
+# Find and edit
+find . -name "$1" -exec vim {} \;
 
 ```
 
