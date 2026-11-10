@@ -160,4 +160,13 @@ def main():
             continue
         try:
             update(path, transform, args.dry_run)
+        except (OSError, ValueError, TypeError, AttributeError) as error:
+            # Avoid including configuration text, which could contain secrets.
+            print(f"ERROR: {command}: configuration could not be updated ({type(error).__name__}). "
+                  "Check syntax, layout, and permissions.", file=sys.stderr)
+            failed = True
+    return 1 if failed else 0
 
+
+if __name__ == "__main__":
+    sys.exit(main())
